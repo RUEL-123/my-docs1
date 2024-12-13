@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Documentation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #06b6d4;
+            --background: #000000;
+            --text: #ffffff;
+            --card-bg: rgba(0, 0, 0, 0.4);
+            --border-glow: rgba(59, 130, 246, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.4; }
+        }
+
+        @keyframes slide-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes gradient-text {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Background Effect */
+        .background-glow {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, #1e3a8a 0%, var(--background) 50%, var(--background) 100%);
+            opacity: 0.5;
+            animation: pulse-glow 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid var(--border-glow);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-button {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--border-glow);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        section {
+            margin-bottom: 6rem;
+            opacity: 0;
+            animation: slide-up 0.6s ease-out forwards;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border-glow);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .card p, li {
+            color: #94a3b8;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border-glow);
+            color: #94a3b8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /*Navigation*/
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            display: none;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 1rem;
+            }
+            nav ul {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: var(--card-bg);
+                backdrop-filter: blur(75px);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem;
+                gap: 1.5rem;
+                transform: translateY(-150%);
+                transition: transform 0.3s;
+            }
+
+            nav ul.active {
+                transform: translateY(0);
+            }
+
+            .mobile-menu {
+                display: block;
+                color: white;
+                font-size: 1.5rem;
+            }
+        }
+        #back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: var(--text);
+            font-size: 1rem;
+            border: none;
+            border-radius: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
+            box-shadow: 0 0 15px var(--border-glow);
+            display: none; /* Initially hidden */
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        #back-to-top:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--primary);
+        }
+        .text-blue-400 {
+            --tw-text-opacity: 1;
+            color: rgb(96 165 250 / var(--tw-text-opacity));
+        }
+
+        .section-title i {
+            margin-right: 0.5rem; /* Adds space between icon and text */
+            color: var(--primary); /* Matches the primary theme color */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="background-glow"></div>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo">DevOps</div>
+            <div class="mobile-menu">☰</div>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#contributions">Contributions</a></li>
+                <li><a href="#roadmap">Roadmap</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#tools">Tools</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div>
+            <h1>Welcome to My Docs</h1>
+            <p>Explore the future of software development and operations in one unified ecosystem</p>
+            <a href="#overview"><button class="cta-button">Get Started <i class="fa-solid fa-arrow-right"></i></button></a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="overview">
+            <h2 class="section-title"><i class="fa-solid fa-globe"></i> Overview</h2>
+            <div class="grid">
+                <div class="card">
+                    <p>As someone passionate about DevOps, I worked to bridge the gap between development and operations by streamlining processes, automating workflows, and maintaining robust infrastructure. I contributed to fostering collaboration between teams, ensuring smoother communication, and enabling faster, more reliable deployments. My role also involved enhancing operational efficiency and promoting best practices across the development lifecycle.</p>
+                    <br>
+                    <p><b>Core Responsibilities</b></p>
+                    <li>Ensure system security and compliance</li>
+                    <li>Collaborate with development teams</li>
+                    <li>Implement disaster recovery solutions</li>
+                    <li>Automate deployment processes</li>
+                    <li>Design and implement efficient CI/CD pipelines</li>
+                    <li>Monitor system performance and reliability</li>
+                    <li>Manage and optimize cloud infrastructure</li>
+                </div>
+            </div>
+        </section>
+
+        <section id="contributions">
+            <h2 class="section-title"><i class="fa-solid fa-handshake"></i> Contributions</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Hosting Setup</h3>
+                    <p>Identified and leveraged free web hosting platforms such as Vercel for project deployment.</p>
+                </div>
+                <div class="card">
+                    <h3>Docker Expertise</h3>
+                    <p>Helped integrate Docker for containerized environments, ensuring consistency across deployments.</p>
+                </div>
+                <div class="card">
+                    <h3>Progress Monitoring</h3>
+                    <p>Implemented effective tracking systems to monitor development progress and ensure milestones are met on time.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="roadmap">
+            <h2 class="section-title"><i class="fa-solid fa-chart-line"></i> Roadmap</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Beginner</h3>
+                    <p>Master the fundamentals of version control with Git, learn basic scripting in Python or Bash, and understand CI/CD concepts. Start exploring Linux system administration and cloud basics.</p>
+                </div>
+                <div class="card">
+                    <h3>Intermediate</h3>
+                    <p>Dive deep into cloud platforms like AWS or Azure, learn configuration management tools like Ansible, and master containerization with Docker. Explore monitoring solutions and infrastructure as code.</p>
+                </div>
+                <div class="card">
+                    <h3>Advanced</h3>
+                    <p>Design and implement complex CI/CD pipelines, orchestrate containers with Kubernetes, and architect scalable cloud solutions. Focus on security best practices and performance optimization.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2 class="section-title"><i class="fa-solid fa-code"></i> Essential Skills</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Technical Proficiency</h3>
+                    <p>Master the core technologies and tools that power modern DevOps practices.</p>
+                </div>
+                <div class="card">
+                    <h3>Automation Expertise</h3>
+                    <p>Build efficient pipelines and automate repetitive tasks for faster delivery.</p>
+                </div>
+                <div class="card">
+                    <h3>Cloud Architecture</h3>
+                    <p>Design and implement scalable cloud-native solutions.</p>
+                </div>
+                <div class="card">
+                    <h3>Security First</h3>
+                    <p>Implement security best practices throughout the development lifecycle.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tools">
+            <h2 class="section-title"><i class="fa-solid fa-screwdriver-wrench"></i> Essential Tools</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Docker</h3>
+                    <p>Create, deploy, and run applications in containers for consistent environments across development and production.</p>
+                </div>
+                <div class="card">
+                    <h3>Jenkins</h3>
+                    <p>The leading open-source automation server for building, testing, and deploying code with extensive plugin support.</p>
+                </div>
+                <div class="card">
+                    <h3>Kubernetes</h3>
+                    <p>Orchestrate containerized applications at scale with automated deployment, scaling, and management capabilities.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="learnings">
+            <h2 class="section-title"><i class="fa-solid fa-chalkboard"></i> What I Learned</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>The Power of Automation</h3>
+                    <li>Automating repetitive tasks is not just about saving time; it ensures consistency, reliability, and frees up time for innovation.</li>
+                    <li>Mastering tools like Jenkins, GitHub Actions, and scripting languages (e.g., Bash, Python) taught me how to build and maintain robust CI/CD pipelines.</li>
+                </div>
+                <div class="card">
+                    <h3>Collaboration and Communication</h3>
+                    <p>I gained insights into facilitating collaboration, understanding requirements from different perspectives, and ensuring alignment across stakeholders.</p>
+                </div>
+                <div class="card">
+                    <h3>Adaptability and Continuous Learning</h3>
+                    <p>The DevOps field evolves rapidly, with new tools and methodologies emerging constantly.</p>
+                </div>
+                <div class="card">
+                    <h3>Importance of Feedback Loops</h3>
+                    <p>Iterative improvement through feedback—whether from monitoring tools or team retrospectives—proved invaluable in delivering better systems over time.</p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+    <button id="back-to-top" title="Back to Top">↑</button>
+
+
+    <footer>
+        <div class="logo">Ruel B. Smith</div>
+        <p>Development and Operations (DevOps) | 2024</p>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navList = document.querySelector('nav ul');
+        
+        mobileMenu.addEventListener('click', () => {
+            navList.classList.toggle('active');
+        });
+
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '100ms';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        const backToTop = document.getElementById('back-to-top');
+
+        // Show or hide the button when scrolling
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.style.display = 'flex'; // Show button
+            } else {
+                backToTop.style.display = 'none'; // Hide button
+            }
+        });
+
+        // Scroll to the top smoothly when clicked
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
